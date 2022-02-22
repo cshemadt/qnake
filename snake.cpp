@@ -78,6 +78,7 @@ void Snake::extend(){
 		else if(m_curr_direction == Direction::Left){
 			m_body.push_back(SnakeSegment(tail_head.position.x+1,tail_head.position.y));
 		}
+		
 		else if(m_curr_direction == Direction::Right){
 			m_body.push_back(SnakeSegment(tail_head.position.x-1,tail_head.position.y));
 		}
@@ -106,6 +107,14 @@ void Snake::move(){
 		++m_body.at(0).position.y;
 	}
 }
-bool Snake::check_collision(){
-
+void Snake::check_collision(){
+	if(m_body.size()<5) { return; }
+	SnakeSegment& snake_head = m_body.front();
+	for(auto itr = m_body.begin() - 1; itr!=m_body.end(); ++itr){
+		if(itr->position == snake_head.position){
+			int segments=m_body.end() - itr;
+			cut(segments);
+			break;
+		}
+	}
 }

@@ -32,7 +32,7 @@ public:
 	void cut(int);
 	void render(sf::RenderWindow&);
 private:
-	bool check_collision();
+	void check_collision();
 	snake_container m_body;
 	Direction m_curr_direction;
 	int m_size;
