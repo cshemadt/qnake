@@ -118,3 +118,13 @@ void Snake::check_collision(){
 		}
 	}
 }
+void Snake::cut(int segments){
+	for(int i=0;i<segments;++i){
+		m_body.pop_back();
+	}
+	--m_lives;
+	if(m_lives==0){
+		lose();
+		return; 
+	}
+}
