@@ -108,7 +108,7 @@ void Snake::move(){
 	}
 }
 void Snake::check_collision(){
-	if(m_body.size()<5) { return; }
+	if(m_body.size() < 5) { return; }
 	SnakeSegment& snake_head = m_body.front();
 	for(auto itr = m_body.begin() - 1; itr!=m_body.end(); ++itr){
 		if(itr->position == snake_head.position){
@@ -126,5 +126,18 @@ void Snake::cut(int segments){
 	if(m_lives==0){
 		lose();
 		return; 
+	}
+}
+
+void Snake::render(sf::RenderWindow& window){
+	if(m_body.empty()){ return; }
+	auto head = m_body.begin();
+	m_body_rect.setFillColor(sf::Color::Yellow);
+	m_body_rect.setPosition(head->position.x*m_size,head->position.y*m_size);
+	window.draw(m_body_rect);
+	m_body_rect.setFillColor(sf::Color::Green);
+	for(auto itr=m_body.begin()+1;itr!=m_body.end();++itr){
+		m_body_rect.setPosition(itr->position.x*m_size,itr->position.y*m_size);
+		window.draw(m_body_rect);
 	}
 }
