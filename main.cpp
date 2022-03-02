@@ -11,4 +11,5 @@ int main()
         game.restart_clock();
     }
     return 0;
+    std::cout<<"123";
 }
