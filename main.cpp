@@ -3,7 +3,7 @@
 #include <iostream>
 int main()
 {
-    Game game{Window{"dfgdfgdf",sf::Vector2u(300,300)}};
+    Game game{};
 	while(!game.get_window()->is_done()){
         game.handle_input();
 		game.render();
@@ -11,5 +11,4 @@ int main()
         game.restart_clock();
     }
     return 0;
-    std::cout<<"123";
 }

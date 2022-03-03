@@ -129,7 +129,8 @@ void Snake::cut(int segments){
 	}
 }
 
-void Snake::render(sf::RenderWindow& window){
+void Snake::render(sf::RenderWindow &window){
+	window.draw(sf::RectangleShape(sf::Vector2f(30,30)));
 	if(m_body.empty()){ return; }
 	auto head = m_body.begin();
 	m_body_rect.setFillColor(sf::Color::Yellow);

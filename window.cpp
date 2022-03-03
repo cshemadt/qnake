@@ -63,3 +63,6 @@ bool Window::is_done() const {
 bool Window::is_fullscreen() const {
     return m_is_fullscreen;
 }
+sf::RenderWindow* Window::get_render_window(){
+    return &m_window;
+}
