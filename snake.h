@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 struct SnakeSegment{
 	sf::Vector2i position;
 	SnakeSegment(int x, int y) : position(x,y){}; 
@@ -9,7 +8,7 @@ enum Direction{ None, Up, Down, Left, Right};
 class Snake{
 	using snake_container = std::vector<SnakeSegment>;	
 public:
-	Snake(int, int, int);
+	Snake(int, int, int, int);
 	~Snake();
 	//Helper methods
 	void set_direction(Direction);
@@ -42,6 +41,7 @@ private:
 	int m_score;
 	int m_grid_x_size;
 	int m_grid_y_size;
+	int m_block_size;
 	bool m_lost;
 	sf::RectangleShape m_body_rect;
 };

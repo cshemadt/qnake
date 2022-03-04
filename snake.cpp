@@ -2,7 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 
-Snake::Snake(int size, int grid_x_size, int grid_y_size ) : m_size(size), m_grid_x_size(grid_x_size), m_grid_y_size(grid_y_size){
+Snake::Snake(int size, int grid_x_size, int grid_y_size, int block_size ) : m_size(size), m_grid_x_size(grid_x_size), m_grid_y_size(grid_y_size), m_block_size(block_size){
 	m_body_rect.setSize(sf::Vector2f(m_size-1,m_size-1));
 	reset();
 }
@@ -125,7 +125,7 @@ void Snake::cut(int segments) {
 	for(int i=0;i<segments;++i){
 		m_body.pop_back();
 	}
-	--m_lives;
+	//--m_lives;
 	//if(m_lives==0){
 		lose();
 		return; 
@@ -146,9 +146,13 @@ void Snake::render(sf::RenderWindow &window) {
 }
 
 void Snake::check_collision_with_wall(){
-	if(m_body.at(0).position.x >= m_grid_x_size){
-		m_body.at(0).position.x = 0;
+	if(m_body.at(0).position.x >= m_grid_x_size - 1.5){
+		m_body.at(0).position.x = 0.5;
 	} else if(m_body.at(0).position.x <= 0){
-		m_body.at(0).position.x = m_grid_x_size;
+		m_body.at(0).position.x = m_grid_x_size-1.5;
+	}else if(m_body.at(0).position.y >= m_grid_y_size-1.5){
+		m_body.at(0).position.y = 1.5;
+	} else if(m_body.at(0).position.y <= 0.5){
+		m_body.at(0).position.y = m_grid_y_size-1.5;
 	}
 }
