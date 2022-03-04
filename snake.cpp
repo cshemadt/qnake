@@ -2,7 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 
-Snake::Snake(int size) : m_size(size){
+Snake::Snake(int size, int grid_x_size, int grid_y_size ) : m_size(size), m_grid_x_size(grid_x_size), m_grid_y_size(grid_y_size){
 	m_body_rect.setSize(sf::Vector2f(m_size-1,m_size-1));
 	reset();
 }
@@ -36,15 +36,12 @@ Direction Snake::get_direction() {
 //Move snake to starting point and reset some game parameters
 void Snake::reset(){
 	m_body.clear();
-	
-	m_body.push_back(SnakeSegment(5,7));
 	m_body.push_back(SnakeSegment(5,6));
 	m_body.push_back(SnakeSegment(5,5));
-	m_body.push_back(SnakeSegment(5,4));
-	
+	m_body.push_back(SnakeSegment(5,4));	
 	set_direction(Direction::None);
 
-	m_speed=15;
+	m_speed=20;
 	m_lives=3;
 	m_score=0;
 	m_lost = false;
@@ -91,8 +88,10 @@ void Snake::extend(){
 }
 void Snake::tick() {
 	if(m_body.empty() || m_curr_direction == Direction::None){ return; }
+	check_collision_with_wall();
 	move();
 	check_collision();
+	
 }
 void Snake::move() {
 	for(int i=m_body.size()-1;i>0;--i){
@@ -127,10 +126,10 @@ void Snake::cut(int segments) {
 		m_body.pop_back();
 	}
 	--m_lives;
-	if(m_lives==0){
+	//if(m_lives==0){
 		lose();
 		return; 
-	}
+	//}
 }
 
 void Snake::render(sf::RenderWindow &window) {
@@ -143,5 +142,13 @@ void Snake::render(sf::RenderWindow &window) {
 	for(auto itr=m_body.begin()+1;itr!=m_body.end();++itr){
 		m_body_rect.setPosition(itr->position.x*m_size,itr->position.y*m_size);
 		window.draw(m_body_rect);
+	}
+}
+
+void Snake::check_collision_with_wall(){
+	if(m_body.at(0).position.x >= m_grid_x_size){
+		m_body.at(0).position.x = 0;
+	} else if(m_body.at(0).position.x <= 0){
+		m_body.at(0).position.x = m_grid_x_size;
 	}
 }

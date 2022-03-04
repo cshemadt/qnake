@@ -9,7 +9,7 @@ enum Direction{ None, Up, Down, Left, Right};
 class Snake{
 	using snake_container = std::vector<SnakeSegment>;	
 public:
-	Snake(int);
+	Snake(int, int, int);
 	~Snake();
 	//Helper methods
 	void set_direction(Direction);
@@ -33,12 +33,15 @@ public:
 	void render(sf::RenderWindow&);
 private:
 	void check_collision();
+	void check_collision_with_wall();
 	snake_container m_body;
 	Direction m_curr_direction;
 	int m_size;
 	int m_speed;
 	int m_lives;
 	int m_score;
+	int m_grid_x_size;
+	int m_grid_y_size;
 	bool m_lost;
 	sf::RectangleShape m_body_rect;
 };

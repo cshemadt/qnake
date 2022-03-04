@@ -1,10 +1,8 @@
 #include "game.h"
 #include <iostream>
+#include "world.h"
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/System/Time.hpp>
-#include <SFML/System/Vector2.hpp>
-Game::Game() : m_window("Znake",sf::Vector2u(600,600)), world(sf::Vector2u(600,600)), player(world.get_block_size()){
+Game::Game() : m_window("Znake",sf::Vector2u(600,600)), world(sf::Vector2u(600,600)), player(world.get_block_size(), world.get_grid().size.x, world.get_grid().size.y){
 };
 void Game::update() {
     float timestep=1.f/player.get_speed();
