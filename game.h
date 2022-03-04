@@ -4,6 +4,7 @@
 #include "window.h"
 #include "world.h"
 #include "snake.h"
+#include "textbox.h"
 
 class Game {
 private:
@@ -13,6 +14,7 @@ private:
 	sf::Vector2u m_increment;
     World world;
     Snake player;
+    Textbox m_content;
 
 public:
     Game();

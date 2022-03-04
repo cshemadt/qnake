@@ -3,6 +3,8 @@
 #include "world.h"
 #include <SFML/Graphics.hpp>
 Game::Game() : m_window("Znake",sf::Vector2u(600,600)), world(sf::Vector2u(600,600)), player(world.get_block_size(), world.get_grid().size.x, world.get_grid().size.y, world.get_block_size()){
+    m_content.setup(0,25,200,sf::Vector2f(50,20));
+    //m_content.add(std::to_string(time(NULL)));
 };
 void Game::update() {
     float timestep=1.f/player.get_speed();
@@ -19,6 +21,7 @@ void Game::render() {
 	m_window.begin_draw();
     player.render(*m_window.get_render_window());
     world.render(*m_window.get_render_window());
+    m_content.render(*m_window.get_render_window(), player.get_score());
 	m_window.end_draw();
 }
 Window* Game::get_window() {
