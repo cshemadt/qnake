@@ -8,7 +8,6 @@ World::World(sf::Vector2u wind_size) : m_window_size(wind_size) {
 
     for (int i = 0; i < 4; ++i) {
         m_bounds[i].setFillColor(sf::Color::White);
-        // !!!
         if(i%2!=0) {
             m_bounds[i].setSize(sf::Vector2f(m_window_size.x,m_block_size));
         } else {
@@ -23,14 +22,14 @@ World::World(sf::Vector2u wind_size) : m_window_size(wind_size) {
     }
 }
 World::~World(){}
-void World::respawn_apple(){
+void World::respawn_apple() {
     int max_x=(m_window_size.x / m_block_size)-2;
     int max_y=(m_window_size.y / m_block_size)-2;
 
     m_item = sf::Vector2i(rand() % max_x+1, rand() % max_y+1);
     m_apple.setPosition(m_item.x*m_block_size,m_item.y*m_block_size);
 }
-void World::update(Snake &player){
+void World::update(Snake &player) {
     if(player.get_position() == m_item) {
         player.extend();
         player.increase_score();
@@ -43,12 +42,12 @@ void World::update(Snake &player){
         player.lose();
     }
 }
-void World::render(sf::RenderWindow &window){
+void World::render(sf::RenderWindow &window) {
     for (int i = 0; i < 4; ++i) {
         window.draw(m_bounds[i]);
     }
     window.draw(m_apple);
 }
-int World::get_block_size() const{
+int World::get_block_size() const {
     return m_block_size;
 }

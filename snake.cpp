@@ -20,7 +20,18 @@ sf::Vector2i Snake::get_position() const {
 void Snake::lose() { m_lost = true; }
 void Snake::toggle_lost() {m_lost = !m_lost; }
 void Snake::increase_score() { m_score += 1; }
-Direction Snake::get_direction() const { return m_curr_direction; }
+Direction Snake::get_direction() {
+	if(m_body.size() <= 1){ return Direction::None; }
+	SnakeSegment &head = m_body[0];
+	SnakeSegment &neck = m_body[1];
+
+	if(head.position.x == neck.position.x) {
+		return head.position.y > neck.position.y ? Direction::Down : Direction::Up; 
+	} else if(head.position.y == neck.position.y) {
+		return head.position.x > neck.position.x ? Direction::Right : Direction::Left;
+	}
+	return Direction::None;
+}
 
 //Move snake to starting point and reset some game parameters
 void Snake::reset(){
@@ -29,6 +40,7 @@ void Snake::reset(){
 	m_body.push_back(SnakeSegment(5,7));
 	m_body.push_back(SnakeSegment(5,6));
 	m_body.push_back(SnakeSegment(5,5));
+	m_body.push_back(SnakeSegment(5,4));
 	
 	set_direction(Direction::None);
 
@@ -47,78 +59,70 @@ void Snake::extend(){
 		SnakeSegment tail_bone = m_body.at(m_body.size()-2);
 		
 		//Considering the situation when tail's head and bone have the same x axis
-		//(i.e snake places vertically
+		//(i.e snake places vertically)
 		if(tail_bone.position.x == tail_head.position.x){
 			//If snake 'looks' up
 			if(tail_head.position.y > tail_bone.position.y){
-				m_body.push_back(SnakeSegment(tail_head.position.x,tail_head.position.y+1));
-			}
-			//If snake 'looks' down
-			else{
+				m_body.push_back(SnakeSegment(tail_head.position.x,tail_head.position.y + 1));
+			} else {
 				m_body.push_back(SnakeSegment(tail_head.position.x, tail_head.position.y - 1));
 			}
 		}
 		//If snake places horizontally
-		else if(tail_bone.position.y == tail_head.position.y){
+		else if(tail_bone.position.y == tail_head.position.y) {
 			if(tail_head.position.x > tail_bone.position.x){
 				m_body.push_back(SnakeSegment(tail_head.position.x + 1, tail_head.position.y));
-			}
-			else{
+			}  else{
 				m_body.push_back(SnakeSegment(tail_head.position.x - 1, tail_head.position.y));
 			}
 		}
 	}
 	else{
-		if(m_curr_direction == Direction::Up){
+		if(m_curr_direction == Direction::Up) {
 			m_body.push_back(SnakeSegment(tail_head.position.x,tail_head.position.y+1));
-		}
-		else if(m_curr_direction == Direction::Down){
+		} else if(m_curr_direction == Direction::Down) {
 			m_body.push_back(SnakeSegment(tail_head.position.x,tail_head.position.y-1));
-		}
-		else if(m_curr_direction == Direction::Left){
+		} else if(m_curr_direction == Direction::Left) {
 			m_body.push_back(SnakeSegment(tail_head.position.x+1,tail_head.position.y));
-		}
-		
-		else if(m_curr_direction == Direction::Right){
+		} else if(m_curr_direction == Direction::Right) {
 			m_body.push_back(SnakeSegment(tail_head.position.x-1,tail_head.position.y));
 		}
 	}
 }
-void Snake::tick(){
+void Snake::tick() {
 	if(m_body.empty() || m_curr_direction == Direction::None){ return; }
 	move();
 	check_collision();
 }
-void Snake::move(){
+void Snake::move() {
 	for(int i=m_body.size()-1;i>0;--i){
 		m_body.at(i).position = m_body.at(i-1).position;
 	}
-	if(m_curr_direction == Direction::Left){
+	if(m_curr_direction == Direction::Left) {
 		--m_body.at(0).position.x;
 	}
-	if(m_curr_direction == Direction::Right){
+	if(m_curr_direction == Direction::Right) {
 		++m_body.at(0).position.x;
 	}
-
-	if(m_curr_direction == Direction::Up){
+	if(m_curr_direction == Direction::Up) {
 		--m_body.at(0).position.y;
 	}
-	if(m_curr_direction == Direction::Down){
+	if(m_curr_direction == Direction::Down) {
 		++m_body.at(0).position.y;
 	}
 }
-void Snake::check_collision(){
+void Snake::check_collision() {
 	if(m_body.size() < 5) { return; }
-	SnakeSegment& snake_head = m_body.front();
-	for(auto itr = m_body.begin() - 1; itr!=m_body.end(); ++itr){
+	SnakeSegment &snake_head = m_body.front();
+	for(auto itr = m_body.begin() + 1; itr!=m_body.end(); ++itr){
 		if(itr->position == snake_head.position){
-			int segments=m_body.end() - itr;
+			int segments=m_body.end() - itr+1;
 			cut(segments);
 			break;
 		}
 	}
 }
-void Snake::cut(int segments){
+void Snake::cut(int segments) {
 	for(int i=0;i<segments;++i){
 		m_body.pop_back();
 	}
@@ -129,8 +133,7 @@ void Snake::cut(int segments){
 	}
 }
 
-void Snake::render(sf::RenderWindow &window){
-	window.draw(sf::RectangleShape(sf::Vector2f(30,30)));
+void Snake::render(sf::RenderWindow &window) {
 	if(m_body.empty()){ return; }
 	auto head = m_body.begin();
 	m_body_rect.setFillColor(sf::Color::Yellow);

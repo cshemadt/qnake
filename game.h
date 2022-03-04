@@ -9,10 +9,10 @@ class Game {
 private:
     Window m_window;
     sf::Clock m_clock;
-    float m_elapsed;
+    sf::Time m_elapsed;
 	sf::Vector2u m_increment;
-    Snake player;
     World world;
+    Snake player;
 
 public:
     Game();
@@ -22,7 +22,7 @@ public:
     void update();
     void render();
 	Window* get_window();
-    float get_elapsed() const;
+    sf::Time get_elapsed() const;
     void restart_clock();
 	bool is_snake_drawn() const; 
 };

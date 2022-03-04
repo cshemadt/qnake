@@ -13,7 +13,7 @@ public:
 	~Snake();
 	//Helper methods
 	void set_direction(Direction);
-	Direction get_direction() const;
+	Direction get_direction();
 	int get_speed() const;
 	sf::Vector2i get_position() const;
 	int get_lives() const;

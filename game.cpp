@@ -4,15 +4,14 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
-Game::Game() : m_window("Znake",sf::Vector2u(600,600)), player(world.get_block_size()), world(sf::Vector2u(600,600)){
-
+Game::Game() : m_window("Znake",sf::Vector2u(600,600)), world(sf::Vector2u(600,600)), player(world.get_block_size()){
 };
 void Game::update() {
     float timestep=1.f/player.get_speed();
-    if(m_elapsed >= timestep){
+    if(m_elapsed.asSeconds() >= timestep){
         player.tick();
         world.update(player);
-        m_elapsed-=timestep;
+        m_elapsed-=sf::seconds(timestep);
         if(player.has_lost()){
             player.reset();
         }
@@ -43,10 +42,10 @@ void Game::handle_input() {
     }
 }
 
-float Game::get_elapsed() const {
+sf::Time Game::get_elapsed() const {
     return m_elapsed;
 }
 
 void Game::restart_clock() {
-    m_elapsed=m_clock.restart().asSeconds();
+    m_elapsed+=m_clock.restart();
 }
