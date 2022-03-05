@@ -35,6 +35,9 @@ void Window::update() {
         else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F5){
             toggle_fullscreen();
         }
+        if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::LAlt+sf::Keyboard::F4){
+            m_is_done=true;
+        }
     }
 }
 void Window::toggle_fullscreen() {

@@ -7,6 +7,7 @@ Game::Game() : m_window("Znake",sf::Vector2u(600,600)), world(sf::Vector2u(600,6
     //m_content.add(std::to_string(time(NULL)));
 };
 void Game::update() {
+    get_window()->update();
     float timestep=1.f/player.get_speed();
     if(m_elapsed.asSeconds() >= timestep){
         player.tick();
