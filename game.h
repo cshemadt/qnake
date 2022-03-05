@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/System/Vector2.hpp>
 #include "window.h"
 #include "world.h"
 #include "snake.h"
