@@ -43,7 +43,7 @@ struct EventDetails{
     }
 };
 struct Binding{
-    Binding(const std::string &binding_name) : m_name(binding_name), count(0) {}
+    Binding(const std::string &binding_name) : m_name(binding_name), count(0), m_details(binding_name) {}
 
     void bind(EventType event_type, EventInfo event_info = EventInfo()){
         m_events.emplace_back(event_type,event_info);
