@@ -12,8 +12,10 @@ public:
 	~Snake();
 	//Helper methods
 	void set_direction(Direction);
+	void set_speed(const int&);
 	Direction get_direction();
 	int get_speed() const;
+	snake_container* get_body();
 	sf::Vector2i get_position() const;
 	int get_lives() const;
 	int get_score() const;

@@ -2,6 +2,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 
+using snake_container = std::vector<SnakeSegment>;	
+
 Snake::Snake(int size, int grid_x_size, int grid_y_size, int block_size ) : m_size(size), m_grid_x_size(grid_x_size), m_grid_y_size(grid_y_size), m_block_size(block_size){
 	m_body_rect.setSize(sf::Vector2f(m_size-1,m_size-1));
 	reset();
@@ -38,10 +40,10 @@ void Snake::reset(){
 	m_body.clear();
 	m_body.push_back(SnakeSegment(5,6));
 	m_body.push_back(SnakeSegment(5,5));
-	m_body.push_back(SnakeSegment(5,4));	
+	m_body.push_back(SnakeSegment(5,4));
 	set_direction(Direction::None);
 
-	m_speed=20;
+	m_speed=15;
 	m_lives=3;
 	m_score=0;
 	m_lost = false;
@@ -155,4 +157,14 @@ void Snake::check_collision_with_wall(){
 	} else if(m_body.at(0).position.y <= 0.5){
 		m_body.at(0).position.y = m_grid_y_size-1.5;
 	}
+}
+
+snake_container* Snake::get_body(){
+	return &m_body;
+}
+void Snake::set_speed(const int &speed){
+	if (speed < 1 || speed > 60){
+		return;
+	}
+	m_speed = speed;
 }

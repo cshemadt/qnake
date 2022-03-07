@@ -1,6 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "snake.h"
+enum AppleTypes{
+	Red,
+	Purple
+};
 class World{
 public:
 	struct Grid{
@@ -14,6 +18,7 @@ public:
 	void respawn_apple();
 	void update(Snake&);
 	void render(sf::RenderWindow&);
+	AppleTypes get_apple_type();
 	Grid get_grid() const;
 private:
 	int m_block_size;
@@ -21,5 +26,6 @@ private:
 	sf::Vector2i m_item;
 	sf::CircleShape m_apple;
 	sf::RectangleShape m_bounds[4];
+	AppleTypes m_apple_type;
 	Grid grid;
 };
