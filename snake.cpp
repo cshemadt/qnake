@@ -6,6 +6,7 @@ using snake_container = std::vector<SnakeSegment>;
 
 Snake::Snake(int size, int grid_x_size, int grid_y_size, int block_size ) : m_size(size), m_grid_x_size(grid_x_size), m_grid_y_size(grid_y_size), m_block_size(block_size){
 	m_body_rect.setSize(sf::Vector2f(m_size-1,m_size-1));
+	m_score_increment=10;
 	reset();
 }
 Snake::~Snake(){}
@@ -21,7 +22,7 @@ sf::Vector2i Snake::get_position() const {
 }
 void Snake::lose() { m_lost = true; }
 void Snake::toggle_lost() {m_lost = !m_lost; }
-void Snake::increase_score() { m_score += 1; }
+void Snake::increase_score() { m_score += m_score_increment; }
 Direction Snake::get_direction() {
 	if(m_body.size() <= 1){ return Direction::None; }
 	SnakeSegment &head = m_body[0];
@@ -43,7 +44,7 @@ void Snake::reset(){
 	m_body.push_back(SnakeSegment(5,4));
 	set_direction(Direction::None);
 
-	m_speed=15;
+	m_speed=20;
 	m_lives=3;
 	m_score=0;
 	m_lost = false;
@@ -129,8 +130,8 @@ void Snake::cut(int segments) {
 	}
 	//--m_lives;
 	//if(m_lives==0){
-		lose();
-		return; 
+	lose();
+	return; 
 	//}
 }
 
@@ -167,4 +168,7 @@ void Snake::set_speed(const int &speed){
 		return;
 	}
 	m_speed = speed;
+}
+void Snake::set_score_increment(const int &inc){
+	m_score_increment = inc;
 }

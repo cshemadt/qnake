@@ -26,8 +26,7 @@ World::~World(){}
 void World::respawn_apple() {
     int max_x=(m_window_size.x / m_block_size)-2;
     int max_y=(m_window_size.y / m_block_size)-2;
-    AppleTypes apple_type = static_cast<AppleTypes>(rand()%2);
-
+    AppleTypes apple_type = static_cast<AppleTypes>(rand()%3);
     switch (apple_type){
         case AppleTypes::Red:
             m_apple.setFillColor(sf::Color::Red);
@@ -36,6 +35,10 @@ void World::respawn_apple() {
         case AppleTypes::Purple:
             m_apple.setFillColor(sf::Color(115, 15, 184));
             m_apple_type = AppleTypes::Purple;
+            break;
+        case AppleTypes::Green:
+            m_apple.setFillColor(sf::Color(32, 227, 90));
+            m_apple_type = AppleTypes::Green;
             break;
     }
     m_item = sf::Vector2i(rand() % max_x+1, rand() % max_y+1);
@@ -51,10 +54,13 @@ void World::update(Snake &player) {
     if(player.get_position() == m_item) {
         switch (m_apple_type){
             case AppleTypes::Red:
-                player.set_speed(15);
+                player.set_speed(20);
                 break;
             case AppleTypes::Purple:
-                player.set_speed(25);
+                player.set_speed(30);
+                break;
+            case AppleTypes::Green:
+                player.set_score_increment(20);
                 break;
         }
         player.extend();

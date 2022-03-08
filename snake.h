@@ -13,6 +13,7 @@ public:
 	//Helper methods
 	void set_direction(Direction);
 	void set_speed(const int&);
+	void set_score_increment(const int&);
 	Direction get_direction();
 	int get_speed() const;
 	snake_container* get_body();
@@ -41,6 +42,7 @@ private:
 	int m_speed;
 	int m_lives;
 	int m_score;
+	int m_score_increment;
 	int m_grid_x_size;
 	int m_grid_y_size;
 	int m_block_size;

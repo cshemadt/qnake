@@ -3,7 +3,8 @@
 #include "snake.h"
 enum AppleTypes{
 	Red,
-	Purple
+	Purple,
+	Green
 };
 class World{
 public:
